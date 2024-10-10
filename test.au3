@@ -1,0 +1,1 @@
+MsgBox(64, "Debug", "Script started") ; Debugging message

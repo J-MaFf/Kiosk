@@ -5,13 +5,9 @@
 #include <Date.au3>
 _GDIPlus_Startup()
 
-MsgBox(64, "Debug", "Script started") ; Debugging message
-
 _Main()
 
 Func _Main()
-    MsgBox(64, "Debug", "Entered _Main function") ; Debugging message
-
     Local $idSeparator1, $idDate, $aUser, $sFQDN_Group, $sFQDN_User, $iResult
     Local $idCancelButton, $idUserName, $idCMDButton
     Local $iMsg, $hGraphic, $hImage, $idMainWindow
@@ -22,8 +18,6 @@ Func _Main()
         MsgBox(16, "Error", "Failed to create GUI")
         Exit
     EndIf
-
-    MsgBox(64, "Debug", "GUI created") ; Debugging message
 
     $idChromeButton = GUICtrlCreateButton("Google Chrome", 20, 100, 120, 40)
     $idQBButton = GUICtrlCreateButton("QuickBooks", 20, 150, 120, 40)
@@ -44,13 +38,22 @@ Func _Main()
         Exit
     EndIf
 
-    MsgBox(64, "Debug", "GUI state set to show") ; Debugging message
-
-    ; Message loop
     While 1
         $iMsg = GUIGetMsg()
         Select
             Case $iMsg = $GUI_EVENT_CLOSE
+                ExitLoop
+            Case $iMsg = $idChromeButton
+                MsgBox(64, "Button Clicked", "Google Chrome button clicked")
+            Case $iMsg = $idQBButton
+                MsgBox(64, "Button Clicked", "QuickBooks button clicked")
+            Case $iMsg = $idPrintButton
+                MsgBox(64, "Button Clicked", "Printers button clicked")
+            Case $iMsg = $idCMDButton
+                MsgBox(64, "Button Clicked", "Command button clicked")
+            Case $iMsg = $idButtonDesktop
+                MsgBox(64, "Button Clicked", "Desktop button clicked")
+            Case $iMsg = $idButtonclose
                 ExitLoop
         EndSelect
     WEnd

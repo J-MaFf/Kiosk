@@ -26,11 +26,11 @@ Func _Main()
     $idExplorerButton = GUICtrlCreateButton("Explorer", 20, 150, 120, 40)
 
     ; Create labels for date and username
-    $idDate = GUICtrlCreateLabel(@HOUR & ":" & @MIN & ":" & @SEC, 320, 260)
+    $idDate = GUICtrlCreateLabel(@HOUR & ":" & @MIN & ":" & @SEC, 320, 260, 100, 20) ; Increase width to 100
     GUICtrlSetFont($idDate, 16, 400, 0, "Arial") ; Set font size to 16, weight to 400, and font to Arial
     GUICtrlSetColor($idDate, 0x0000FF) ; Set text color to blue
 
-    $idUserName = GUICtrlCreateLabel(@UserName, 320, 220)
+    $idUserName = GUICtrlCreateLabel(@UserName, 320, 220, 150, 20) ; Increase width to 150
     GUICtrlSetFont($idUserName, 12, 400, 0, "Arial") ; Set font size to 12, weight to 400, and font to Arial
     GUICtrlSetColor($idUserName, 0x000000) ; Set text color to black
 

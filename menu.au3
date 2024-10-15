@@ -49,7 +49,7 @@ Func _Main()
             Case $iMsg = $GUI_EVENT_CLOSE
                 ExitLoop ; Exit loop if close event is triggered
             Case $iMsg = $idUPSButton
-                MsgBox(64, "Button Clicked", "UPS Worldship button clicked") ; Action for UPS Worldship button
+                Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
             Case $iMsg = $idExplorerButton
                 MsgBox(64, "Button Clicked", "Explorer button clicked") ; Action for Explorer button
             Case $iMsg = $idButtonDesktop

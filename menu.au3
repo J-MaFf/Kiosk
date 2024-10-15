@@ -51,11 +51,11 @@ Func _Main()
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
             Case $iMsg = $idExplorerButton
-                MsgBox(64, "Button Clicked", "Explorer button clicked") ; Action for Explorer button
+                Run("explorer.exe") ; Open Windows Explorer
             Case $iMsg = $idButtonDesktop
                 MsgBox(64, "Button Clicked", "Desktop button clicked") ; Action for Desktop button
             Case $iMsg = $idButtonclose
-                ExitLoop ; Exit loop if close button is clicked
+                Shutdown(0) ; Log off the user
         EndSelect
     WEnd
 

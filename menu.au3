@@ -34,7 +34,7 @@ Func _Main()
     GUICtrlSetBkColor($idExplorerButton, 0x0078D7)
 
     ; Create labels with modern fonts and colors
-    $idDate = GUICtrlCreateLabel(@HOUR & ":" & @MIN & ":" & @SEC, 320, 260, 100, 20)
+    $idDate = GUICtrlCreateLabel(@HOUR & ":" & @MIN & ":" & @SEC, 320, 175, 100, 50)
     GUICtrlSetFont($idDate, 16, 400, 0, "Segoe UI")
     GUICtrlSetColor($idDate, 0x0000FF)
 

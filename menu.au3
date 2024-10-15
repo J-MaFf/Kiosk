@@ -52,11 +52,11 @@ Func _Main()
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
             Case $iMsg = $idExplorerButton
                 Run("explorer.exe") ; Open Windows Explorer
-            Case $iMsg = $idButtonDesktop
-                MsgBox(64, "Button Clicked", "Desktop button clicked") ; Action for Desktop button
-            Case $iMsg = $idButtonclose
-                Shutdown(0) ; Log off the user
         EndSelect
+
+        ; Update the clock label
+        GUICtrlSetData($idDate, @HOUR & ":" & @MIN & ":" & @SEC)
+        Sleep(1000) ; Sleep for 1 second to update the clock every second
     WEnd
 
     ; Delete the GUI window

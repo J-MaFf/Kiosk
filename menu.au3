@@ -22,10 +22,8 @@ Func _Main()
     EndIf
 
     ; Create buttons with labels and positions
-    $idChromeButton = GUICtrlCreateButton("Google Chrome", 20, 100, 120, 40)
-    $idQBButton = GUICtrlCreateButton("QuickBooks", 20, 150, 120, 40)
-    $idPrintButton = GUICtrlCreateButton("Printers", 150, 100, 120, 40)
-    $idCMDButton = GUICtrlCreateButton("Command", 150, 150, 120, 40)
+    $idUPSButton = GUICtrlCreateButton("UPS Worldship", 20, 100, 120, 40)
+    $idExplorerButton = GUICtrlCreateButton("Explorer", 20, 150, 120, 40)
 
     ; Create labels for date and username
     $idDate = GUICtrlCreateLabel(@HOUR & ":" & @MIN & ":" & @SEC, 320, 260)
@@ -50,14 +48,10 @@ Func _Main()
         Select
             Case $iMsg = $GUI_EVENT_CLOSE
                 ExitLoop ; Exit loop if close event is triggered
-            Case $iMsg = $idChromeButton
-                MsgBox(64, "Button Clicked", "Google Chrome button clicked") ; Action for Chrome button
-            Case $iMsg = $idQBButton
-                MsgBox(64, "Button Clicked", "QuickBooks button clicked") ; Action for QuickBooks button
-            Case $iMsg = $idPrintButton
-                MsgBox(64, "Button Clicked", "Printers button clicked") ; Action for Printers button
-            Case $iMsg = $idCMDButton
-                MsgBox(64, "Button Clicked", "Command button clicked") ; Action for Command button
+            Case $iMsg = $idUPSButton
+                MsgBox(64, "Button Clicked", "UPS Worldship button clicked") ; Action for UPS Worldship button
+            Case $iMsg = $idExplorerButton
+                MsgBox(64, "Button Clicked", "Explorer button clicked") ; Action for Explorer button
             Case $iMsg = $idButtonDesktop
                 MsgBox(64, "Button Clicked", "Desktop button clicked") ; Action for Desktop button
             Case $iMsg = $idButtonclose

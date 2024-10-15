@@ -55,15 +55,16 @@ Func _Main()
         $iMsg = GUIGetMsg() ; Get GUI message
         Select
             Case $iMsg = $GUI_EVENT_CLOSE
-                ExitLoop ; Exit loop if close event is triggered
+                ; Ignore the close event to prevent the window from closing
+                ContinueLoop
             Case $iMsg = $idButtonDesktop
-                MsgBox(0, "Desktop Button", "Desktop button was clicked")
+                MsgBox(0, "Desktop", "Desktop button clicked") ; Display message when desktop button is clicked
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
             Case $iMsg = $idExplorerButton
                 Run("explorer.exe") ; Open Windows Explorer
             Case $iMsg = $idButtonclose
-                Shutdown(0) ; Log off user
+                Shutdown(0) ; Log off the user
         EndSelect
 
         ; Update the clock label every second

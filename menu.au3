@@ -22,6 +22,9 @@ Func _Main()
         Exit
     EndIf
 
+    ; Create a hidden label to receive initial focus
+    $idHiddenLabel = GUICtrlCreateLabel("", 0, 0, 1, 1)
+
     ; Create buttons with modern styles and icons
     $idUPSButton = GUICtrlCreateButton("UPS Worldship", 20, 100, 160, 60) ; Increased width to 160 and height to 60
     GUICtrlSetFont($idUPSButton, 14, 400, 0, "Segoe UI")
@@ -47,6 +50,9 @@ Func _Main()
     GUICtrlSetImage(-1, "shell32.dll", 35) ; Set icon for desktop button
     $idButtonclose = GUICtrlCreateButton("", 460, 0, 40, 40, $BS_ICON)
     GUICtrlSetImage(-1, "shell32.dll", 28) ; Set icon for close button
+
+    ; Set focus to the hidden label to prevent auto-selection of buttons
+    GUICtrlSetState($idHiddenLabel, $GUI_FOCUS)
 
     ; Set the GUI state to show the window
     GUISetState(@SW_SHOW)

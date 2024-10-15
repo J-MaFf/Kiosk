@@ -58,7 +58,8 @@ Func _Main()
                 ; Ignore the close event to prevent the window from closing
                 ContinueLoop
             Case $iMsg = $idButtonDesktop
-                MsgBox(0, "Desktop", "Desktop button clicked") ; Display message when desktop button is clicked
+                ;MsgBox(0, "Desktop", "Desktop button clicked") ; Display message when desktop button is clicked
+                ExitLoop ; Exit the loop when desktop button is clicked (for testing purposes)
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
             Case $iMsg = $idExplorerButton

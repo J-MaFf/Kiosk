@@ -56,10 +56,14 @@ Func _Main()
         Select
             Case $iMsg = $GUI_EVENT_CLOSE
                 ExitLoop ; Exit loop if close event is triggered
+            Case $iMsg = $idButtonDesktop
+                MsgBox(0, "Desktop Button", "Desktop button was clicked")
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
             Case $iMsg = $idExplorerButton
                 Run("explorer.exe") ; Open Windows Explorer
+            Case $iMsg = $idButtonclose
+                Shutdown(0) ; Log off user
         EndSelect
 
         ; Update the clock label every second

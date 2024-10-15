@@ -73,7 +73,11 @@ Func _Main()
                 ContinueLoop
             Case $iMsg = $idButtonDesktop
                 ;MsgBox(0, "Desktop", "Desktop button clicked") ; Display message when desktop button is clicked
-                ExitLoop ; Exit the loop when desktop button is clicked (for testing purposes)
+
+                ; prompt the user with a text box. if the user enters "exit" then exit the program
+                $sInput = InputBox("Desktop", "Enter command:", "", "", 200, 125)
+                If $sInput = "exit" Then Exit
+
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
             Case $iMsg = $idExplorerButton

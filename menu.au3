@@ -79,7 +79,11 @@ Func _Main()
             Case $iMsg = $idExplorerButton
                 Run("explorer.exe") ; Open Windows Explorer
             Case $iMsg = $idButtonclose
-                Shutdown(0) ; Log off the user
+                ; Show confirmation box
+                $iResponse = MsgBox(4, "Confirmation", "Are you sure you want to log out?")
+                If $iResponse = 6 Then ; If Yes is clicked (6 is the return value for Yes)
+                    Shutdown(0) ; Log off the user
+                EndIf
         EndSelect
 
         ; Update the clock label every second

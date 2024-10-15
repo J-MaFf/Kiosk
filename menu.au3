@@ -3,6 +3,7 @@
 #include <ButtonConstants.au3>    ; Include button constants
 #include <GUIConstantsEx.au3>     ; Include extended GUI constants
 #include <Date.au3>               ; Include date functions
+#include <WindowsConstants.au3>   ; Include Windows constants
 _GDIPlus_Startup()                ; Initialize GDI+ library
 
 _Main()                           ; Call the main function
@@ -15,29 +16,36 @@ Func _Main()
     #forceref $idSeparator1       ; Force reference to avoid unused variable warning
 
     ; Create the main GUI window
-    $idMainWindow = GUICreate("User Menu", 500, 300)
+    $idMainWindow = GUICreate("User Menu", 500, 300, -1, -1, $WS_POPUP)
     If @error Then
         MsgBox(16, "Error", "Failed to create GUI") ; Display error message if GUI creation fails
         Exit
     EndIf
 
-    ; Create buttons with labels and positions
-    $idUPSButton = GUICtrlCreateButton("UPS Worldship", 20, 100, 120, 40)
-    $idExplorerButton = GUICtrlCreateButton("Explorer", 20, 150, 120, 40)
+    ; Create buttons with modern styles and icons
+    $idUPSButton = GUICtrlCreateButton("UPS Worldship", 20, 100, 160, 60) ; Increased width to 160 and height to 60
+    GUICtrlSetFont($idUPSButton, 14, 400, 0, "Segoe UI")
+    GUICtrlSetColor($idUPSButton, 0xFFFFFF)
+    GUICtrlSetBkColor($idUPSButton, 0xff0000)
 
-    ; Create labels for date and username
-    $idDate = GUICtrlCreateLabel(@HOUR & ":" & @MIN & ":" & @SEC, 320, 260, 100, 20) ; Increase width to 100
-    GUICtrlSetFont($idDate, 16, 400, 0, "Arial") ; Set font size to 16, weight to 400, and font to Arial
-    GUICtrlSetColor($idDate, 0x0000FF) ; Set text color to blue
+    $idExplorerButton = GUICtrlCreateButton("Explorer", 20, 180, 160, 60) ; Adjusted Y position to 180
+    GUICtrlSetFont($idExplorerButton, 14, 400, 0, "Segoe UI")
+    GUICtrlSetColor($idExplorerButton, 0xFFFFFF)
+    GUICtrlSetBkColor($idExplorerButton, 0x0078D7)
 
-    $idUserName = GUICtrlCreateLabel(@UserName, 320, 220, 150, 20) ; Increase width to 150
-    GUICtrlSetFont($idUserName, 12, 400, 0, "Arial") ; Set font size to 12, weight to 400, and font to Arial
-    GUICtrlSetColor($idUserName, 0x000000) ; Set text color to black
+    ; Create labels with modern fonts and colors
+    $idDate = GUICtrlCreateLabel(@HOUR & ":" & @MIN & ":" & @SEC, 320, 260, 100, 20)
+    GUICtrlSetFont($idDate, 16, 400, 0, "Segoe UI")
+    GUICtrlSetColor($idDate, 0x0000FF)
+
+    $idUserName = GUICtrlCreateLabel(@UserName, 320, 220, 150, 20)
+    GUICtrlSetFont($idUserName, 12, 400, 0, "Segoe UI")
+    GUICtrlSetColor($idUserName, 0x000000)
 
     ; Create buttons with icons
-    $idButtonDesktop = GUICtrlCreateButton("desktop", 0, 0, 40, 40, $BS_ICON)
+    $idButtonDesktop = GUICtrlCreateButton("", 0, 0, 40, 40, $BS_ICON)
     GUICtrlSetImage(-1, "shell32.dll", 35) ; Set icon for desktop button
-    $idButtonclose = GUICtrlCreateButton("close", 460, 0, 40, 40, $BS_ICON)
+    $idButtonclose = GUICtrlCreateButton("", 460, 0, 40, 40, $BS_ICON)
     GUICtrlSetImage(-1, "shell32.dll", 28) ; Set icon for close button
 
     ; Set the GUI state to show the window

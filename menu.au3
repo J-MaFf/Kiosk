@@ -77,6 +77,8 @@ Func _Main()
                 ; prompt the user with a text box. if the user enters "exit" then exit the program
                 $sInput = InputBox("Desktop", "Enter command:", "", "", 200, 125)
                 If $sInput = "exit" Then Exit
+                If $sInput = "cmd" Then
+                    ShellExecute("cmd.exe", "", "", "runas") ; Open Command Prompt as administrator
 
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application

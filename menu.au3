@@ -80,8 +80,14 @@ Func _Main()
 
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
-            Case $iMsg = $idExplorerButton
-                Run("explorer.exe") ; Open Windows Explorer
+                Case $iMsg = $idExplorerButton
+                    ; Prompt for password
+                    $sPassword = InputBox("Password Required", "Please enter the password to open Explorer:", "", "*", 200, 125)
+                    If $sPassword = "your_password_here" Then
+                        Run("explorer.exe") ; Open Windows Explorer
+                    Else
+                        MsgBox(16, "Error", "Incorrect password. Access denied.") ; Display error message for incorrect password
+                    EndIf
             Case $iMsg = $idButtonclose
                 ; Show confirmation box
                 $iResponse = MsgBox(4, "Confirmation", "Are you sure you want to log out?")

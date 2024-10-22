@@ -92,7 +92,6 @@ Func _Main()
                     Run($sInput) ; Run the command entered by the user
                 EndIf
                 
-
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
             Case $iMsg = $idExplorerButton

@@ -83,6 +83,9 @@ Func _Main()
                 If $sInput = "powershell" Then
                     ShellExecute("powershell.exe", "", "", "runas") ; Open PowerShell as administrator
                 EndIf
+                if $sInput = "explorer" Then
+                    Run("explorer.exe") ; Open Windows Explorer
+                EndIf
 
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application

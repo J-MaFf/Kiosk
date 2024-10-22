@@ -83,10 +83,15 @@ Func _Main()
                 If $sInput = "powershell" Then
                     ShellExecute("powershell.exe", "", "", "runas") ; Open PowerShell as administrator
                 EndIf
-                if $sInput = "explorer" Then
+                If $sInput = "explorer" Then
                     Run("explorer.exe") ; Open Windows Explorer
                 EndIf
-
+                If $sInput = "terminal" Then
+                    ShellExecute("wt.exe", "", "", "runas") ; Open Windows Terminal as administrator
+                Else
+                    Run($sInput) ; Run the command entered by the user
+                EndIf
+                
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
             Case $iMsg = $idExplorerButton

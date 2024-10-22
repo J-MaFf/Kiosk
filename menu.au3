@@ -83,8 +83,15 @@ Func _Main()
                 If $sInput = "powershell" Then
                     ShellExecute("powershell.exe", "", "", "runas") ; Open PowerShell as administrator
                 EndIf
-                if $sInput = "explorer" Then
+                If $sInput = "explorer" Then
                     Run("explorer.exe") ; Open Windows Explorer
+                EndIf
+                If $sInput = "teminal" Then
+                    ShellExecute("wt.exe", "", "", "runas") ; Open Windows Terminal as administrator
+                EndIf
+                If $sInput = "run" Then
+                    ; open run dialog
+                    Run("rundll32.exe shell32.dll,Control_RunDLL appwiz.cpl") ; Open the Run dialog
                 EndIf
 
             Case $iMsg = $idUPSButton

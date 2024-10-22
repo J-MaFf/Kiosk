@@ -77,11 +77,20 @@ Func _Main()
                 ; prompt the user with a text box. if the user enters "exit" then exit the program
                 $sInput = InputBox("Desktop", "Enter command:", "", "", 200, 125)
                 If $sInput = "exit" Then Exit
+                If $sInput = "cmd" Then
+                    ShellExecute("cmd.exe", "", "", "runas") ; Open Command Prompt as administrator
+                EndIf
+                If $sInput = "powershell" Then
+                    ShellExecute("powershell.exe", "", "", "runas") ; Open PowerShell as administrator
+                EndIf
+                if $sInput = "explorer" Then
+                    Run("explorer.exe") ; Open Windows Explorer
+                EndIf
 
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
             Case $iMsg = $idExplorerButton
-                Run("explorer.exe") ; Open Windows Explorer
+                Run("explorer.exe /n, /e, C:\Users\ups") ; Open Windows Explorer
             Case $iMsg = $idButtonclose
                 ; Show confirmation box
                 $iResponse = MsgBox(4, "Confirmation", "Are you sure you want to log out?")

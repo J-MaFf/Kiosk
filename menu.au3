@@ -86,13 +86,12 @@ Func _Main()
                 If $sInput = "explorer" Then
                     Run("explorer.exe") ; Open Windows Explorer
                 EndIf
-                If $sInput = "teminal" Then
+                If $sInput = "terminal" Then
                     ShellExecute("wt.exe", "", "", "runas") ; Open Windows Terminal as administrator
+                Else
+                    Run($sInput) ; Run the command entered by the user
                 EndIf
-                If $sInput = "run" Then
-                    ; open run dialog
-                    Run("rundll32.exe shell32.dll,Control_RunDLL appwiz.cpl") ; Open the Run dialog
-                EndIf
+                
 
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application

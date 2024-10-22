@@ -79,6 +79,10 @@ Func _Main()
                 If $sInput = "exit" Then Exit
                 If $sInput = "cmd" Then
                     ShellExecute("cmd.exe", "", "", "runas") ; Open Command Prompt as administrator
+                EndIf
+                If $sInput = "powershell" Then
+                    ShellExecute("powershell.exe", "", "", "runas") ; Open PowerShell as administrator
+                EndIf
 
             Case $iMsg = $idUPSButton
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application

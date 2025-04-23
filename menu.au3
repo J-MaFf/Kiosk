@@ -34,6 +34,11 @@ Func _Main()
     GUICtrlSetColor($idExplorerButton, 0xFFFFFF)
     GUICtrlSetBkColor($idExplorerButton, 0x0078D7)
 
+    $idGmailButton = GUICtrlCreateButton("Gmail", 200, 100, 160, 60)
+    GUICtrlSetFont($idGmailButton, 14, 400, 0, "Segoe UI")
+    GUICtrlSetColor($idGmailButton, 0xFFFFFF)
+    GUICtrlSetBkColor($idGmailButton, 0x34A853) ; Gmail green
+
     ; Create labels with modern fonts and colors
     $idDate = GUICtrlCreateLabel(@HOUR & ":" & @MIN & ":" & @SEC, 320, 175, 100, 50)
     GUICtrlSetFont($idDate, 16, 400, 0, "Segoe UI")
@@ -94,6 +99,9 @@ Func _Main()
                 Run("C:\Program Files (x86)\UPS\WSTD\WorldShipTD.exe") ; Open UPS Worldship application
             Case $iMsg = $idExplorerButton
                 Run("explorer.exe /n, /e, C:\Users\ups") ; Open Windows Explorer
+            Case $iMsg = $idGmailButton
+                ; Launch Edge in kiosk mode to gmail.com using just 'msedge.exe' (now that it's in PATH)
+                Run('msedge.exe --kiosk https://mail.google.com --edge-kiosk-type=fullscreen')
             Case $iMsg = $idButtonclose
                 ; Show confirmation box
                 $iResponse = MsgBox(4, "Confirmation", "Are you sure you want to log out?")

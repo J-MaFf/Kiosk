@@ -14,7 +14,7 @@ Func _Main()
     Local $iMsg, $idMainWindow, $iTimer
 
     ; Create the main GUI window
-    $idMainWindow = GUICreate("User Menu", 500, 300, -1, -1, $WS_POPUP)
+    $idMainWindow = GUICreate("User Menu", 480, 300, -1, -1, $WS_POPUP) ; Reduced size for better layout
     If @error Then
         MsgBox(16, "Error", "Failed to create GUI") ; Display error message if GUI creation fails
         Exit
@@ -23,35 +23,41 @@ Func _Main()
     ; Create a hidden label to receive initial focus
     $idHiddenLabel = GUICtrlCreateLabel("", 0, 0, 1, 1)
 
+    ; Create labels with modern fonts and colors (now above the buttons, aligned horizontally)
+    $idDate = GUICtrlCreateLabel(@HOUR & ":" & @MIN & ":" & @SEC, 40, 20, 200, 40)
+    GUICtrlSetFont($idDate, 18, 400, 0, "Segoe UI")
+    GUICtrlSetColor($idDate, 0x0000FF)
+
+    $idUserName = GUICtrlCreateLabel(@UserName, 260, 20, 180, 40)
+    GUICtrlSetFont($idUserName, 18, 400, 0, "Segoe UI")
+    GUICtrlSetColor($idUserName, 0x000000)
+
     ; Create buttons with modern styles and icons
-    $idUPSButton = GUICtrlCreateButton("UPS Worldship", 20, 100, 160, 60) ; Increased width to 160 and height to 60
-    GUICtrlSetFont($idUPSButton, 14, 400, 0, "Segoe UI")
+    $idUPSButton = GUICtrlCreateButton("UPS Worldship", 20, 100, 200, 80)
+    GUICtrlSetFont($idUPSButton, 16, 400, 0, "Segoe UI")
     GUICtrlSetColor($idUPSButton, 0xFFFFFF)
     GUICtrlSetBkColor($idUPSButton, 0xff0000)
 
-    $idExplorerButton = GUICtrlCreateButton("Explorer", 20, 180, 160, 60) ; Adjusted Y position to 180
-    GUICtrlSetFont($idExplorerButton, 14, 400, 0, "Segoe UI")
+    $idExplorerButton = GUICtrlCreateButton("Explorer", 20, 200, 200, 80)
+    GUICtrlSetFont($idExplorerButton, 16, 400, 0, "Segoe UI")
     GUICtrlSetColor($idExplorerButton, 0xFFFFFF)
     GUICtrlSetBkColor($idExplorerButton, 0x0078D7)
 
-    $idGmailButton = GUICtrlCreateButton("Gmail", 200, 100, 160, 60)
-    GUICtrlSetFont($idGmailButton, 14, 400, 0, "Segoe UI")
+    $idGmailButton = GUICtrlCreateButton("Gmail", 240, 100, 200, 80)
+    GUICtrlSetFont($idGmailButton, 16, 400, 0, "Segoe UI")
     GUICtrlSetColor($idGmailButton, 0xFFFFFF)
     GUICtrlSetBkColor($idGmailButton, 0x34A853) ; Gmail green
 
-    ; Create labels with modern fonts and colors
-    $idDate = GUICtrlCreateLabel(@HOUR & ":" & @MIN & ":" & @SEC, 320, 175, 100, 50)
-    GUICtrlSetFont($idDate, 16, 400, 0, "Segoe UI")
-    GUICtrlSetColor($idDate, 0x0000FF)
-
-    $idUserName = GUICtrlCreateLabel(@UserName, 320, 220, 150, 20)
-    GUICtrlSetFont($idUserName, 12, 400, 0, "Segoe UI")
-    GUICtrlSetColor($idUserName, 0x000000)
+    $idIKATButton = GUICtrlCreateButton("iKAT", 240, 200, 200, 80)
+    GUICtrlSetFont($idIKATButton, 16, 400, 0, "Segoe UI")
+    GUICtrlSetColor($idIKATButton, 0xFFFFFF)
+    GUICtrlSetBkColor($idIKATButton, 0x008080) ; Teal color for iKAT
+    GUICtrlSetImage($idIKATButton, "shell32.dll", 44) ; RDP icon (icon index 44 in shell32.dll)
 
     ; Create buttons with icons
     $idButtonDesktop = GUICtrlCreateButton("", 0, 0, 40, 40, $BS_ICON)
     GUICtrlSetImage(-1, "shell32.dll", 35) ; Set icon for desktop button
-    $idButtonclose = GUICtrlCreateButton("", 460, 0, 40, 40, $BS_ICON)
+    $idButtonclose = GUICtrlCreateButton("", 420, 0, 40, 40, $BS_ICON) ; Moved left from 460 to 420
     GUICtrlSetImage(-1, "shell32.dll", 28) ; Set icon for close button
 
     ; Set focus to the hidden label to prevent auto-selection of buttons
@@ -102,6 +108,9 @@ Func _Main()
             Case $iMsg = $idGmailButton
                 ; Launch Edge in app mode to gmail.com (windowed, with close button)
                 Run('msedge.exe --app=https://mail.google.com')
+            Case $iMsg = $idIKATButton
+                ; Launch a specific RDP shortcut
+                Run('mstsc.exe "C:\\Users\\jmaffiola\\Documents\\Scripts\\Kiosk\\iKAT.rdp"')
             Case $iMsg = $idButtonclose
                 ; Show confirmation box
                 $iResponse = MsgBox(4, "Confirmation", "Are you sure you want to log out?")

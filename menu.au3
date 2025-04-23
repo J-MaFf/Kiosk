@@ -100,8 +100,8 @@ Func _Main()
             Case $iMsg = $idExplorerButton
                 Run("explorer.exe /n, /e, C:\Users\ups") ; Open Windows Explorer
             Case $iMsg = $idGmailButton
-                ; Launch Edge in kiosk mode to gmail.com using just 'msedge.exe' (now that it's in PATH)
-                Run('msedge.exe --kiosk https://mail.google.com --edge-kiosk-type=fullscreen')
+                ; Launch Edge in app mode to gmail.com (windowed, with close button)
+                Run('msedge.exe --app=https://mail.google.com')
             Case $iMsg = $idButtonclose
                 ; Show confirmation box
                 $iResponse = MsgBox(4, "Confirmation", "Are you sure you want to log out?")

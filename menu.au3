@@ -10,10 +10,8 @@ _Main()                           ; Call the main function
 
 Func _Main()
     ; Declare local variables
-    Local $idSeparator1, $idDate, $aUser, $sFQDN_Group, $sFQDN_User, $iResult
-    Local $idCancelButton, $idUserName, $idCMDButton
-    Local $iMsg, $hGraphic, $hImage, $idMainWindow, $iTimer
-    #forceref $idSeparator1       ; Force reference to avoid unused variable warning
+    Local $idDate, $idUserName
+    Local $iMsg, $idMainWindow, $iTimer
 
     ; Create the main GUI window
     $idMainWindow = GUICreate("User Menu", 500, 300, -1, -1, $WS_POPUP)

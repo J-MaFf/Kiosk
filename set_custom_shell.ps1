@@ -25,9 +25,37 @@ if (-not $Username) {
     exit 1
 }
 
+
 $userSID = Get-UserSID -UserName $Username
 $regPath = "Registry::HKEY_USERS\\$userSID\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon"
-$shellValue = if ($Restore) { 'explorer.exe' } else { 'C:\\Users\\$Username\\Documents\\Scripts\\Kiosk\\Menu.exe' }
+$shellValue = if ($Restore) { 'explorer.exe' } else { "C:\\Users\\$Username\\Documents\\Scripts\\Kiosk\\Menu.exe" }
+
+# Check if the user's hive is loaded
+if (-not (Test-Path $regPath)) {
+    # Try to load the user's hive
+    $userProfile = (Get-CimInstance -ClassName Win32_UserProfile | Where-Object { $_.SID -eq $userSID }).LocalPath
+    if (-not $userProfile) {
+        Write-Host "Could not find profile path for $Username (SID: $userSID)." -ForegroundColor Red
+        exit 1
+    }
+    $ntuserDat = Join-Path $userProfile 'NTUSER.DAT'
+    if (-not (Test-Path $ntuserDat)) {
+        Write-Host "NTUSER.DAT not found at $ntuserDat. User profile may not exist or is not loaded." -ForegroundColor Red
+        exit 1
+    }
+    try {
+        reg load "HKU\\$userSID" "$ntuserDat" | Out-Null
+        $hiveLoaded = $true
+        Write-Host "Loaded registry hive for $Username." -ForegroundColor Yellow
+    }
+    catch {
+        Write-Host "Failed to load registry hive for $Username." -ForegroundColor Red
+        exit 1
+    }
+}
+else {
+    $hiveLoaded = $false
+}
 
 try {
     Set-ItemProperty -Path $regPath -Name 'Shell' -Value $shellValue -Force
@@ -40,4 +68,15 @@ try {
 }
 catch {
     Write-Host "Failed to set shell for $Username. Try running as Administrator." -ForegroundColor Red
+}
+
+# Unload the hive if we loaded it
+if ($hiveLoaded) {
+    try {
+        reg unload "HKU\\$userSID" | Out-Null
+        Write-Host "Unloaded registry hive for $Username." -ForegroundColor Yellow
+    }
+    catch {
+        Write-Host "Failed to unload registry hive for $Username. You may need to unload it manually." -ForegroundColor Red
+    }
 }

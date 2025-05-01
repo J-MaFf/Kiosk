@@ -57,9 +57,10 @@ else {
     $hiveLoaded = $false
 }
 
+
 # Ensure Winlogon key exists
 if (-not (Test-Path $regPath)) {
-    New-Item -Path (Split-Path $regPath -Parent) -Name 'Winlogon' | Out-Null
+    New-Item -Path $regPath -Force | Out-Null
 }
 
 try {

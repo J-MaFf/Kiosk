@@ -109,8 +109,10 @@ Func _Main()
                 ; Launch Edge in app mode to gmail.com (windowed, with close button)
                 Run('msedge.exe --app=https://mail.google.com')
             Case $iMsg = $idIKATButton
+                ; Build the RDP file path dynamically based on the current user
+                Local $sRDPPath = @HomeDrive & "\\Users\\" & @UserName & "\\Documents\\Scripts\\Kiosk\\iKAT.rdp"
                 ; Launch a specific RDP shortcut
-                Run('mstsc.exe "C:\\Users\\jmaffiola\\Documents\\Scripts\\Kiosk\\iKAT.rdp"')
+                Run('mstsc.exe "' & $sRDPPath & '"')
             Case $iMsg = $idButtonclose
                 ; Show confirmation box
                 $iResponse = MsgBox(4, "Confirmation", "Are you sure you want to log out?")

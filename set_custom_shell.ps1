@@ -61,14 +61,29 @@ else {
 
 # Ensure each parent key exists for the Winlogon key
 $parentPath = "Registry::HKEY_USERS\$userSID\Software\Microsoft\Windows NT\CurrentVersion"
+Write-Host "[DEBUG] Checking parent path: $parentPath" -ForegroundColor Cyan
 if (-not (Test-Path $parentPath)) {
-    New-Item -Path "Registry::HKEY_USERS\$userSID\Software\Microsoft\Windows NT" -Name 'CurrentVersion' -Force | Out-Null
+    Write-Host "[DEBUG] Creating parent key: Registry::HKEY_USERS\$userSID\Software\Microsoft\Windows NT Name='CurrentVersion'" -ForegroundColor Cyan
+    try {
+        New-Item -Path "Registry::HKEY_USERS\$userSID\Software\Microsoft\Windows NT" -Name 'CurrentVersion' -Force | Out-Null
+        Write-Host '[DEBUG] Created parent key successfully.' -ForegroundColor Green
+    }
+    catch {
+        Write-Host "[DEBUG] Failed to create parent key: $_" -ForegroundColor Red
+    }
 }
+Write-Host "[DEBUG] Checking regPath: $regPath" -ForegroundColor Cyan
 if (-not (Test-Path $regPath)) {
-    New-Item -Path $parentPath -Name 'Winlogon' -Force | Out-Null
+    Write-Host "[DEBUG] Creating Winlogon key: $regPath" -ForegroundColor Cyan
+    try {
+        New-Item -Path $parentPath -Name 'Winlogon' -Force | Out-Null
+        Write-Host '[DEBUG] Created Winlogon key successfully.' -ForegroundColor Green
+    }
+    catch {
+        Write-Host "[DEBUG] Failed to create Winlogon key: $_" -ForegroundColor Red
+    }
 }
-
-# Double-check the key exists before setting the property
+Write-Host "[DEBUG] Verifying Winlogon key exists: $regPath" -ForegroundColor Cyan
 if (-not (Test-Path $regPath)) {
     Write-Host "Failed to create Winlogon registry key for $Username." -ForegroundColor Red
     if ($hiveLoaded) {
@@ -78,8 +93,10 @@ if (-not (Test-Path $regPath)) {
     exit 1
 }
 
+Write-Host "[DEBUG] Attempting to set Shell property at $regPath to $shellValue" -ForegroundColor Cyan
 try {
     Set-ItemProperty -Path $regPath -Name 'Shell' -Value $shellValue -Force
+    Write-Host '[DEBUG] Shell property set successfully.' -ForegroundColor Green
     if ($Restore) {
         Write-Host "Default shell restored to explorer.exe for $Username." -ForegroundColor Green
     }
@@ -89,15 +106,6 @@ try {
 }
 catch {
     Write-Host "Failed to set shell for $Username. Try running as Administrator." -ForegroundColor Red
+    Write-Host "[DEBUG] Set-ItemProperty error: $_" -ForegroundColor Red
 }
-
-# Unload the hive if we loaded it
-if ($hiveLoaded) {
-    try {
-        reg unload HKU\$userSID | Out-Null
-        Write-Host "Unloaded registry hive for $Username." -ForegroundColor Yellow
-    }
-    catch {
-        Write-Host "Failed to unload registry hive for $Username. You may need to unload it manually." -ForegroundColor Red
-    }
 }

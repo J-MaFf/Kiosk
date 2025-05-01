@@ -58,13 +58,24 @@ else {
 }
 
 
+
 # Ensure each parent key exists for the Winlogon key
 $parentPath = "Registry::HKEY_USERS\$userSID\Software\Microsoft\Windows NT\CurrentVersion"
 if (-not (Test-Path $parentPath)) {
-    New-Item -Path "Registry::HKEY_USERS\$userSID\Software\Microsoft\Windows NT" -Name 'CurrentVersion' | Out-Null
+    New-Item -Path "Registry::HKEY_USERS\$userSID\Software\Microsoft\Windows NT" -Name 'CurrentVersion' -Force | Out-Null
 }
 if (-not (Test-Path $regPath)) {
-    New-Item -Path $parentPath -Name 'Winlogon' | Out-Null
+    New-Item -Path $parentPath -Name 'Winlogon' -Force | Out-Null
+}
+
+# Double-check the key exists before setting the property
+if (-not (Test-Path $regPath)) {
+    Write-Host "Failed to create Winlogon registry key for $Username." -ForegroundColor Red
+    if ($hiveLoaded) {
+        reg unload HKU\$userSID | Out-Null
+        Write-Host "Unloaded registry hive for $Username." -ForegroundColor Yellow
+    }
+    exit 1
 }
 
 try {

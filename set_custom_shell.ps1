@@ -58,9 +58,13 @@ else {
 }
 
 
-# Ensure Winlogon key exists
+# Ensure each parent key exists for the Winlogon key
+$parentPath = "Registry::HKEY_USERS\$userSID\Software\Microsoft\Windows NT\CurrentVersion"
+if (-not (Test-Path $parentPath)) {
+    New-Item -Path "Registry::HKEY_USERS\$userSID\Software\Microsoft\Windows NT" -Name 'CurrentVersion' | Out-Null
+}
 if (-not (Test-Path $regPath)) {
-    New-Item -Path $regPath -Force | Out-Null
+    New-Item -Path $parentPath -Name 'Winlogon' | Out-Null
 }
 
 try {

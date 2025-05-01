@@ -108,4 +108,3 @@ catch {
     Write-Host "Failed to set shell for $Username. Try running as Administrator." -ForegroundColor Red
     Write-Host "[DEBUG] Set-ItemProperty error: $_" -ForegroundColor Red
 }
-}

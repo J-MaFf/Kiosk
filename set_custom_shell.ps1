@@ -1,82 +1,22 @@
-# This script sets your custom shell (Menu.exe) as the default Windows shell for all users.
-# It also provides an option to restore the default shell (explorer.exe).
-# Run this script as Administrator.
-
 param(
-    [string]$Username,
     [switch]$Restore
 )
 
-function Get-UserSID {
-    param([string]$UserName)
-    $objUser = New-Object System.Security.Principal.NTAccount($UserName)
-    try {
-        $strSID = $objUser.Translate([System.Security.Principal.SecurityIdentifier])
-        return $strSID.Value
-    }
-    catch {
-        Write-Host "Could not resolve SID for user $UserName" -ForegroundColor Red
-        exit 1
-    }
-}
+# Set the shell value
+$shellValue = if ($Restore) { 'explorer.exe' } else { "$env:USERPROFILE\\Documents\\Scripts\\Kiosk\\Menu.exe" }
+$regPath = 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon'
 
-if (-not $Username) {
-    Write-Host 'Please provide a username using -Username parameter.' -ForegroundColor Yellow
-    exit 1
-}
-
-
-$userSID = Get-UserSID -UserName $Username
-$regPath = "Registry::HKEY_USERS\\$userSID\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon"
-$shellValue = if ($Restore) { 'explorer.exe' } else { "C:\\Users\\$Username\\Documents\\Scripts\\Kiosk\\Menu.exe" }
-
-# Check if the user's hive is loaded
+# Ensure the Winlogon key exists
 if (-not (Test-Path $regPath)) {
-    # Try to load the user's hive
-    $userProfile = (Get-CimInstance -ClassName Win32_UserProfile | Where-Object { $_.SID -eq $userSID }).LocalPath
-    if (-not $userProfile) {
-        Write-Host "Could not find profile path for $Username (SID: $userSID)." -ForegroundColor Red
-        exit 1
-    }
-    $ntuserDat = Join-Path $userProfile 'NTUSER.DAT'
-    if (-not (Test-Path $ntuserDat)) {
-        Write-Host "NTUSER.DAT not found at $ntuserDat. User profile may not exist or is not loaded." -ForegroundColor Red
-        exit 1
-    }
-    try {
-        reg load "HKU\\$userSID" "$ntuserDat" | Out-Null
-        $hiveLoaded = $true
-        Write-Host "Loaded registry hive for $Username." -ForegroundColor Yellow
-    }
-    catch {
-        Write-Host "Failed to load registry hive for $Username." -ForegroundColor Red
-        exit 1
-    }
+    New-Item -Path $regPath -Force | Out-Null
+}
+
+# Set the Shell property
+Set-ItemProperty -Path $regPath -Name 'Shell' -Value $shellValue -Force
+
+if ($Restore) {
+    Write-Host "Default shell restored to explorer.exe for $env:USERNAME." -ForegroundColor Green
 }
 else {
-    $hiveLoaded = $false
-}
-
-try {
-    Set-ItemProperty -Path $regPath -Name 'Shell' -Value $shellValue -Force
-    if ($Restore) {
-        Write-Host "Default shell restored to explorer.exe for $Username." -ForegroundColor Green
-    }
-    else {
-        Write-Host "Custom shell set to $shellValue for $Username. Restart the computer to apply changes." -ForegroundColor Green
-    }
-}
-catch {
-    Write-Host "Failed to set shell for $Username. Try running as Administrator." -ForegroundColor Red
-}
-
-# Unload the hive if we loaded it
-if ($hiveLoaded) {
-    try {
-        reg unload "HKU\\$userSID" | Out-Null
-        Write-Host "Unloaded registry hive for $Username." -ForegroundColor Yellow
-    }
-    catch {
-        Write-Host "Failed to unload registry hive for $Username. You may need to unload it manually." -ForegroundColor Red
-    }
+    Write-Host "Custom shell set to $shellValue for $env:USERNAME. Restart the computer to apply changes." -ForegroundColor Green
 }

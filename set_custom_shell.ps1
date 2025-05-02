@@ -93,10 +93,14 @@ if (-not (Test-Path $regPath)) {
     exit 1
 }
 
-Write-Host "[DEBUG] Attempting to set Shell property at $regPath to $shellValue" -ForegroundColor Cyan
-try {
-    Set-ItemProperty -Path $regPath -Name 'Shell' -Value $shellValue -Force
-    Write-Host '[DEBUG] Shell property set successfully.' -ForegroundColor Green
+Write-Host '[DEBUG] Attempting to set Shell property using reg.exe' -ForegroundColor Cyan
+$regKey = "HKU\$userSID\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
+$regCmd = "reg add `"$regKey`" /v Shell /t REG_SZ /d `"$shellValue`" /f"
+Write-Host "[DEBUG] Running: $regCmd" -ForegroundColor Cyan
+$regResult = cmd.exe /c $regCmd
+Write-Host $regResult
+if ($LASTEXITCODE -eq 0) {
+    Write-Host '[DEBUG] Shell property set successfully using reg.exe.' -ForegroundColor Green
     if ($Restore) {
         Write-Host "Default shell restored to explorer.exe for $Username." -ForegroundColor Green
     }
@@ -104,7 +108,6 @@ try {
         Write-Host "Custom shell set to $shellValue for $Username. Restart the computer to apply changes." -ForegroundColor Green
     }
 }
-catch {
-    Write-Host "Failed to set shell for $Username. Try running as Administrator." -ForegroundColor Red
-    Write-Host "[DEBUG] Set-ItemProperty error: $_" -ForegroundColor Red
+else {
+    Write-Host "Failed to set shell for $Username using reg.exe." -ForegroundColor Red
 }
